@@ -5,9 +5,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Entity;
+
 import com.example.futBattle.models.Card;
+import jakarta.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -41,7 +44,7 @@ public class StatisticsCard {
     @Column(name = "phy", nullable = false, columnDefinition = "CHAR(2)")
     private String phy;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "id_card", referencedColumnName = "id")
     private Card idCard;
 

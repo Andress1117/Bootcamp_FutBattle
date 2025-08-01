@@ -11,23 +11,27 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Data;
 
-import com.example.futBattle.models.ImageProfile;
+import com.example.futBattle.models.Game;
+import com.example.futBattle.models.Player;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Entity(name = "player")
-public class Player {
-
+@Entity(name = "ranking")
+public class Ranking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false, unique = true, length = 50)
-    private String name;
+    @Column(name = "score", nullable = false)
+    private Integer score;
 
     @ManyToOne
-    @JoinColumn(name = "id_image_profile ", nullable = false, referencedColumnName = "id")
-    private ImageProfile imageProfile;
+    @JoinColumn(name = "id_game", nullable = false, referencedColumnName = "id")
+    private Game idGame;
+
+    @ManyToOne
+    @JoinColumn(name = "id_player", nullable = false, referencedColumnName = "id")
+    private Player idPlayer;
 
 }

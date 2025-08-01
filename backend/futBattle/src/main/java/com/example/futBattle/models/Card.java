@@ -20,7 +20,7 @@ public class Card {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "url", nullable = false, unique = true, length = 100)
+    @Column(name = "url", nullable = false, unique = true)
     private String url;
 
     @Column(name = "name", nullable = false, unique = true, length = 50)
