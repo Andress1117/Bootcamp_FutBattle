@@ -27,7 +27,7 @@ public class Player {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "id_image_profile ", nullable = false, referencedColumnName = "id")
+    @JoinColumn(name = "id_image_profile", nullable = false, referencedColumnName = "id")
     private ImageProfile imageProfile;
 
 }
