@@ -1,32 +1,32 @@
 package com.example.futBattle.models;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Entity(name = "game")
 public class Game {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "num_player", nullable = false)
-    private Integer name;
+    private Integer numPlayer;
 
-    @Column(name = "date", nullable = false)
+    @Column(name = "date", nullable = false, updatable = false)
     private LocalDateTime date;
 
+    @PrePersist
+    public void prePersist() {
+        this.date = LocalDateTime.now();
+    }
 }
