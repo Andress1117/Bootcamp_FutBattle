@@ -7,10 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class PlayerDTO {
-
-    private Long id;
-    private String name;
-    private Long imageProfileId;
-
+public class responseDTO {
+    private String message;
+    private String status;
 }
