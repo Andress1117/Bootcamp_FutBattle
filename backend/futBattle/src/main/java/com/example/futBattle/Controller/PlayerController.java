@@ -4,15 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.futBattle.Service.PlayerService;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import com.example.futBattle.DTO.PlayerDTO;
 
 @RestController
 @RequestMapping("/api/v1/player")
@@ -35,13 +31,18 @@ public class PlayerController {
         return new ResponseEntity<Object>(data, HttpStatus.OK);
     }
 
-    // Guardar Player
-    // @PostMapping("/")
-    // public String savePlayer(@RequestBody String player) {
+    // Guardar Player y actualiza Player
+    @PostMapping("/")
+    public ResponseEntity<Object> savePlayer(@RequestBody PlayerDTO player) {
+        var data = service.savePlayer(player);
+        return new ResponseEntity<Object>(data, HttpStatus.OK);
+    }
 
-    //     var data = service.savePlayer(player);
-
-    //     return "registo";
-    // }
+    //Eliminar Payer
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deletePlayer(@PathVariable Long id) {
+        var data = service.deletePlayer(id);
+        return new ResponseEntity<Object>(data, HttpStatus.OK);
+    }
 
 }

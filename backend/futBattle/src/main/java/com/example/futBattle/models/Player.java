@@ -11,8 +11,6 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Data;
 
-import com.example.futBattle.models.ImageProfile;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
