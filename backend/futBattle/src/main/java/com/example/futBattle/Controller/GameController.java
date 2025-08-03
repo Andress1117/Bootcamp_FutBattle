@@ -18,21 +18,21 @@ public class GameController {
     @GetMapping("/")
     public ResponseEntity<Object> getAllGame() {
         var data = service.getAllDataGame();
-        return new ResponseEntity<Object>(data, HttpStatus.OK);
+        return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
     // Guarda Game
     @PostMapping("/")
     public ResponseEntity<Object> saveGame(@RequestBody GameDTO gameDTO) {
         var data = service.saveGame(gameDTO);
-        return new ResponseEntity<Object>(data, HttpStatus.OK);
+        return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
     //Eliminar game
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteGame(@PathVariable Long id) {
         var data = service.deleteGame(id);
-        return new ResponseEntity<Object>(data, HttpStatus.OK);
+        return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
 }

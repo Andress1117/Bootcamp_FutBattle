@@ -25,6 +25,10 @@ public class Game {
     @Column(name = "date", nullable = false, updatable = false)
     private LocalDateTime date;
 
+    @ManyToOne
+    @JoinColumn(name = "id_payer", nullable = false, referencedColumnName = "id")
+    private Player idPlayer;
+
     @PrePersist
     public void prePersist() {
         this.date = LocalDateTime.now();

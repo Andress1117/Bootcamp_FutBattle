@@ -11,5 +11,6 @@ public class GameDTO {
 
     private Long id;
     private Integer numPlayer;
+    private Long idPlayer;
 
 }

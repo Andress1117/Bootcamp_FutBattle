@@ -4,6 +4,7 @@ import com.example.futBattle.DTO.GameDTO;
 import com.example.futBattle.DTO.responseDTO;
 import com.example.futBattle.Repository.IGame;
 import com.example.futBattle.models.Game;
+import com.example.futBattle.models.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -54,11 +55,24 @@ public class GameService {
                     "El numero de jugadores debe ser mayor que siete");
         }
 
-        // Creación de Game
-        Game newGame = new Game();
-        newGame.setNumPlayer(gameDTO.getNumPlayer());
+        // Validar que el id del Player no sea nulo
+        if (gameDTO.getIdPlayer() == null) {
+
+            return new responseDTO(
+                    HttpStatus.BAD_REQUEST.toString(),
+                    "El id del jugador no puede ser nulo");
+        }
+
+        Player player = new Player();
+        player.setId(gameDTO.getIdPlayer());
+
+        Game newGame = Game.builder()
+                .numPlayer(gameDTO.getNumPlayer())
+                .idPlayer(player)
+                .build();
 
         repository.save(newGame);
+
 
         return new responseDTO(HttpStatus.OK.toString(), "El juego se creo correctamente");
     }
@@ -76,16 +90,25 @@ public class GameService {
     }
 
     public Game convertToModel(GameDTO gameDTO) {
+
+        // Crear un objeto Player con solo el ID
+        Player player = new Player();
+        player.setId(gameDTO.getIdPlayer());
+
+        // Crear el objeto Game usando el builder de Lombok
         return Game.builder()
                 .id(gameDTO.getId())
                 .numPlayer(gameDTO.getNumPlayer())
+                .idPlayer(player) // asignamos el objeto player creado
                 .build();
     }
+
 
     public GameDTO convertToDTO(Game game) {
         return new GameDTO(
                 game.getId(),
-                game.getNumPlayer());
+                game.getNumPlayer(),
+                game.getIdPlayer().getId());
     }
 
 }
