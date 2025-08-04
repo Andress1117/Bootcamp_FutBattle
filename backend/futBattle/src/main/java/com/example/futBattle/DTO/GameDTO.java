@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @Data
 public class GameDTO {
 
-    private Long id;
+    private Integer id;
     private Integer numPlayer;
-    private Long idPlayer;
+    private Integer idPlayer;
 
 }

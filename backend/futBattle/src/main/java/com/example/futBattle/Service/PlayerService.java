@@ -33,11 +33,11 @@ public class PlayerService {
     }
 
     // lista el Player segun el id
-    public Optional<Player> findById(Long id) {
+    public Optional<Player> findById(Integer id) {
         return repository.findById(id);
     }
 
-    //Guarda y actuliza los datos de los player
+    // Guarda y actuliza los datos de los player
     public responseDTO savePlayer(PlayerDTO playerDTO) {
         // Validación del nombre
         if (playerDTO.getName() == null || playerDTO.getName().isEmpty()
@@ -94,8 +94,8 @@ public class PlayerService {
         return new responseDTO(HttpStatus.OK.toString(), "El jugador se guardó correctamente");
     }
 
-    //Eliminar  player
-    public responseDTO deletePlayer(Long id) {
+    // Eliminar player
+    public responseDTO deletePlayer(Integer id) {
         if (!findById(id).isPresent()) {
             return new responseDTO(
                     HttpStatus.OK.toString(),

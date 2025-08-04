@@ -10,10 +10,35 @@ import {
     TextInput,
 } from 'react-native';
 
+import { savePlayer } from '../components/src/api/PlayerApi';
+
+import { INamePlayer } from "../components/src/api/types/IPlayer";
+
 const { width, height } = Dimensions.get('window');
 
 export default function LandingScreen({ navigation }) {
+
     const [username, setUsername] = useState('');
+
+    const formSavePlayer = async () => {
+
+        if (username.trim() === '') {
+            alert('Por favor, ingresa un nombre.');
+            return;
+        }
+
+        const player = {
+            name: username.trim(),
+            imageProfileId: 1 // ID quemado por ahora
+        };
+
+        const response = await savePlayer(player);
+
+        console.log(response);
+
+        navigation.navigate('SeleccionarJugadores', { username });
+
+    };
 
     return (
         <ImageBackground
@@ -47,16 +72,11 @@ export default function LandingScreen({ navigation }) {
 
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => {
-                            if (username.trim() === '') {
-                                alert('Por favor, ingresa un nombre.');
-                                return;
-                            }
-                            navigation.navigate('SeleccionarJugadores', { username });
-                        }}
+                        onPress={formSavePlayer}
                     >
                         <Text style={styles.buttonText}>Jugar partida</Text>
                     </TouchableOpacity>
+
 
                 </View>
             </View>
