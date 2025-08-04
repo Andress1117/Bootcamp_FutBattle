@@ -14,6 +14,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 const { width, height } = Dimensions.get('window');
 
+
 const cartasBase = [
     { nombre: 'Messi', stats: { PAC: 85, SHO: 92, PAS: 91, DRI: 95, DEF: 38, PHY: 65 } },
     { nombre: 'Cristiano', stats: { PAC: 89, SHO: 93, PAS: 82, DRI: 88, DEF: 35, PHY: 77 } },
