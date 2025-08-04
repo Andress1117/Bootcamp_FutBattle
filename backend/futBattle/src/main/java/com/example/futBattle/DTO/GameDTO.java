@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class PlayerDTO {
+public class GameDTO {
 
     private Long id;
-    private String name;
-    private Long imageProfileId;
+    private Integer numPlayer;
+    private Long idPlayer;
 
 }
