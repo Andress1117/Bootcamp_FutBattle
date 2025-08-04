@@ -21,7 +21,7 @@ import com.example.futBattle.models.Player;
 public class Ranking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(name = "score", nullable = false)
     private Integer score;

@@ -24,11 +24,11 @@ public class GameService {
     }
 
     // lista Game segun el id
-    public Optional<Game> findById(Long id) {
+    public Optional<Game> findById(Integer id) {
         return repository.findById(id);
     }
 
-    //Guarda datos de Game
+    // Guarda datos de Game
     public responseDTO saveGame(GameDTO gameDTO) {
 
         // Validación del numero de Player no sea nulo
@@ -64,6 +64,7 @@ public class GameService {
         }
 
         Player player = new Player();
+
         player.setId(gameDTO.getIdPlayer());
 
         Game newGame = Game.builder()
@@ -73,12 +74,11 @@ public class GameService {
 
         repository.save(newGame);
 
-
         return new responseDTO(HttpStatus.OK.toString(), "El juego se creo correctamente");
     }
 
-    //Eliminar Game
-    public responseDTO deleteGame(Long id) {
+    // Eliminar Game
+    public responseDTO deleteGame(Integer id) {
         if (!findById(id).isPresent()) {
             return new responseDTO(
                     HttpStatus.OK.toString(),
@@ -102,7 +102,6 @@ public class GameService {
                 .idPlayer(player) // asignamos el objeto player creado
                 .build();
     }
-
 
     public GameDTO convertToDTO(Game game) {
         return new GameDTO(

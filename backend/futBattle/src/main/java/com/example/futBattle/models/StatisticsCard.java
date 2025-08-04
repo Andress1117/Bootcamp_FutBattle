@@ -24,7 +24,7 @@ public class StatisticsCard {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(name = "pac", columnDefinition = "CHAR(2)", nullable = false)
     private String pac;

@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @Data
 public class PlayerDTO {
 
-    private Long id;
+    private Integer id;
     private String name;
-    private Long imageProfileId;
+    private Integer imageProfileId;
 
 }
