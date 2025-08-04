@@ -84,10 +84,33 @@ const statsLabels = {
     PHY: 'Physical'
 };
 
+const getPlayerImagePath = (playerName) => {
+    const imageName = playerName
+        .toLowerCase()
+        .replace(/\s+/g, '')
+        .replace(/ñ/g, 'n') 
+        .replace(/á/g, 'a')
+        .replace(/é/g, 'e')
+        .replace(/í/g, 'i')
+        .replace(/ó/g, 'o')
+        .replace(/ú/g, 'u');
+    
+    // Retornar la ruta de la imagen
+    return `../assets/cartas/${imageName}.png`;
+};
+
+const getImageSource = (playerName) => {
+    try {
+        const imagePath = getPlayerImagePath(playerName);
+        return { uri: imagePath };
+    } catch (error) {
+        return require('../assets/cartas/default.png');
+    }
+};
+
 const Game = ({ navigation, route }) => {
     const jugadoresLobby = route?.params?.players || [];
     
-    // Estados del juego
     const [jugadores, setJugadores] = useState([]);
     const [rondaActual, setRondaActual] = useState(1);
     const [turnoActual, setTurnoActual] = useState(0);
@@ -100,7 +123,6 @@ const Game = ({ navigation, route }) => {
     const [ganadorRonda, setGanadorRonda] = useState(null);
     const [estadisticasFinales, setEstadisticasFinales] = useState([]);
 
-    // Función para barajar cartas
     const barajarCartas = (array) => {
         const shuffled = [...array];
         for (let i = shuffled.length - 1; i > 0; i--) {
@@ -110,7 +132,6 @@ const Game = ({ navigation, route }) => {
         return shuffled;
     };
 
-    // Función para repartir cartas
     const repartirCartas = () => {
         const cartasBarajadas = barajarCartas(cartasBase);
         const jugadoresConCartas = jugadoresLobby.map((jugador, index) => ({
@@ -122,23 +143,19 @@ const Game = ({ navigation, route }) => {
         return jugadoresConCartas;
     };
 
-    // Inicializar juego
     useEffect(() => {
         const jugadoresIniciales = repartirCartas();
         setJugadores(jugadoresIniciales);
         
-        // Elegir estadística aleatoria para la primera ronda
         const estatRandom = statsNames[Math.floor(Math.random() * statsNames.length)];
         setEstadisticaRonda(estatRandom);
     }, []);
 
-    // Manejar selección de carta
     const seleccionarCarta = (carta) => {
         setCartaSeleccionada(carta);
         setModalVisible(true);
     };
 
-    // Confirmar jugada de carta
     const confirmarCarta = () => {
         if (!cartaSeleccionada) return;
 
@@ -149,7 +166,6 @@ const Game = ({ navigation, route }) => {
 
         setCartasJugadas(nuevasCartasJugadas);
 
-        // Remover carta del jugador
         const nuevosJugadores = [...jugadores];
         nuevosJugadores[turnoActual].cartas = nuevosJugadores[turnoActual].cartas.filter(
             carta => carta.nombre !== cartaSeleccionada.nombre
@@ -160,16 +176,13 @@ const Game = ({ navigation, route }) => {
         setCartaSeleccionada(null);
         setModalVisible(false);
 
-        // Verificar si todos han jugado
         if (nuevasCartasJugadas.length === jugadores.length) {
             determinarGanadorRonda(nuevasCartasJugadas);
         } else {
-            // Siguiente turno
             setTurnoActual((turnoActual + 1) % jugadores.length);
         }
     };
 
-    // Determinar ganador de la ronda
     const determinarGanadorRonda = (cartasRonda) => {
         let mejorCarta = cartasRonda[0];
         let mejorValor = cartasRonda[0].carta.stats[estadisticaRonda];
@@ -182,7 +195,6 @@ const Game = ({ navigation, route }) => {
             }
         });
 
-        // Actualizar rondasGanadas del ganador
         const nuevosJugadores = [...jugadores];
         const indexGanador = nuevosJugadores.findIndex(j => j.id === mejorCarta.jugador.id);
         nuevosJugadores[indexGanador].rondasGanadas++;
@@ -191,14 +203,11 @@ const Game = ({ navigation, route }) => {
         setGanadorRonda(mejorCarta);
         setEsperandoProximaRonda(true);
 
-        // El ganador será el primero en jugar la próxima ronda
         setTurnoActual(indexGanador);
     };
 
-    // Continuar a la siguiente ronda
     const siguienteRonda = () => {
         if (rondaActual >= 8) {
-            // Juego terminado
             finalizarJuego();
             return;
         }
@@ -208,12 +217,10 @@ const Game = ({ navigation, route }) => {
         setGanadorRonda(null);
         setEsperandoProximaRonda(false);
         
-        // Nueva estadística aleatoria
         const estatRandom = statsNames[Math.floor(Math.random() * statsNames.length)];
         setEstadisticaRonda(estatRandom);
     };
 
-    // Finalizar juego
     const finalizarJuego = () => {
         const estadisticas = jugadores
             .sort((a, b) => b.rondasGanadas - a.rondasGanadas)
@@ -226,12 +233,10 @@ const Game = ({ navigation, route }) => {
         setJuegoTerminado(true);
     };
 
-    // Volver al lobby
     const volverAlLobby = () => {
         navigation.goBack();
     };
 
-    // Renderizar carta
     const renderCarta = (carta, seleccionable = false) => (
         <TouchableOpacity
             style={[styles.carta, seleccionable && styles.cartaSeleccionable]}
@@ -240,8 +245,11 @@ const Game = ({ navigation, route }) => {
         >
             <Text style={styles.nombreCarta}>{carta.nombre}</Text>
             <Image 
-                source={{ uri: `../assets/cartas/${carta.nombre.toLowerCase().replace(/\s+/g, '')}.png` }}
+                source={getImageSource(carta.nombre)}
                 style={styles.imagenCarta}
+                onError={() => {
+                    console.log(`Error cargando imagen para ${carta.nombre}`);
+                }}
                 defaultSource={require('../assets/cartas/default.png')}
             />
             <View style={styles.statsContainer}>
@@ -304,7 +312,6 @@ const Game = ({ navigation, route }) => {
             resizeMode="cover"
         >
             <View style={styles.overlay}>
-                {/* Header del juego */}
                 <View style={styles.header}>
                     <Text style={styles.rondaTexto}>Ronda {rondaActual}/8</Text>
                     <Text style={styles.estadisticaTexto}>
@@ -312,7 +319,6 @@ const Game = ({ navigation, route }) => {
                     </Text>
                 </View>
 
-                {/* Información de jugadores */}
                 <ScrollView horizontal style={styles.jugadoresContainer}>
                     {jugadores.map((jugador, index) => (
                         <View key={jugador.id} style={[
@@ -326,7 +332,6 @@ const Game = ({ navigation, route }) => {
                     ))}
                 </ScrollView>
 
-                {/* Cartas jugadas en la ronda */}
                 {cartasJugadas.length > 0 && (
                     <View style={styles.cartasJugadasContainer}>
                         <Text style={styles.cartasJugadasTitulo}>Cartas jugadas:</Text>
@@ -341,7 +346,6 @@ const Game = ({ navigation, route }) => {
                     </View>
                 )}
 
-                {/* Ganador de ronda */}
                 {ganadorRonda && (
                     <View style={styles.ganadorContainer}>
                         <Text style={styles.ganadorTexto}>
@@ -355,7 +359,6 @@ const Game = ({ navigation, route }) => {
                     </View>
                 )}
 
-                {/* Cartas del jugador actual */}
                 {!esperandoProximaRonda && jugadores.length > 0 && (
                     <View style={styles.cartasJugadorContainer}>
                         <Text style={styles.turnoTexto}>
@@ -378,7 +381,6 @@ const Game = ({ navigation, route }) => {
                     </View>
                 )}
 
-                {/* Modal de confirmación */}
                 <Modal
                     animationType="fade"
                     transparent={true}
@@ -574,6 +576,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginBottom: 10,
         borderRadius: 5,
+        backgroundColor: '#f0f0f0', 
     },
     statsContainer: {
         flex: 1,
@@ -724,4 +727,3 @@ const styles = StyleSheet.create({
 });
 
 export default Game;
-

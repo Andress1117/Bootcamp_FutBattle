@@ -15,7 +15,7 @@ import { Ionicons } from '@expo/vector-icons';
 const { width, height } = Dimensions.get('window');
 
 const Lobby = ({ navigation, route }) => {
-    // Obtener el número de jugadores seleccionados y el username de la pantalla anterior
+
     const selectedPlayers = route?.params?.players || 5;
     const username = route?.params?.username || 'Usuario';
 
@@ -103,7 +103,6 @@ const Lobby = ({ navigation, route }) => {
         const allPlayersConnected = players.every(player => player.isConnected);
 
         if (allPlayersConnected) {
-            // Filtrar sólo jugadores conectados con nombre
             const jugadoresConectados = players.filter(p => p.isConnected && p.name);
             navigation.navigate('Game', {
                 players: jugadoresConectados,
