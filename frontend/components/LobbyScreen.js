@@ -15,8 +15,10 @@ import { Ionicons } from '@expo/vector-icons';
 const { width, height } = Dimensions.get('window');
 
 const Lobby = ({ navigation, route }) => {
-    // Obtener el número de jugadores seleccionados de la pantalla anterior
+    // Obtener el número de jugadores seleccionados y el username de la pantalla anterior
     const selectedPlayers = route?.params?.players || 5;
+    const username = route?.params?.username || 'Usuario'; // Obtener el username del landing
+
     const [players, setPlayers] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [playerName, setPlayerName] = useState('');
@@ -26,11 +28,11 @@ const Lobby = ({ navigation, route }) => {
         // Inicializar los slots de jugadores
         const initialPlayers = Array.from({ length: selectedPlayers }, (_, index) => {
             if (index === 0) {
-                // El primer slot está ocupado por el usuario actual
+                // El primer slot está ocupado por el usuario actual con su nombre del landing
                 return {
                     id: index,
-                    name: 'Carlos Javier',
-                    avatar: '👤', // Puedes cambiar esto por una imagen
+                    name: username, // Usar el username del landing
+                    avatar: '👤',
                     isConnected: true,
                     isHost: true,
                 };
@@ -44,7 +46,7 @@ const Lobby = ({ navigation, route }) => {
             };
         });
         setPlayers(initialPlayers);
-    }, [selectedPlayers]);
+    }, [selectedPlayers, username]); // Agregar username como dependencia
 
     const handleBack = () => {
         if (navigation) {
@@ -100,15 +102,36 @@ const Lobby = ({ navigation, route }) => {
         );
     };
 
+    // En tu archivo Lobby.js, actualiza la función handleContinue:
+
     const handleContinue = () => {
         // Verificar si todos los slots están ocupados
         const allPlayersConnected = players.every(player => player.isConnected);
 
         if (allPlayersConnected) {
+            // Obtener todos los nombres de jugadores
+            const playerNames = players.map(player => player.name);
+
             console.log('Iniciando juego...');
-            // navigation.navigate('Game');
+            console.log('Jugadores:', playerNames);
+
+            // Navegar a la pantalla Game pasando los jugadores
+            if (navigation && navigation.navigate) {
+                navigation.navigate('Game', {
+                    players: playerNames,
+                    totalPlayers: selectedPlayers,
+                    hostName: username
+                });
+            } else {
+                console.error('Navigation object not available');
+            }
         } else {
             console.log('Esperando más jugadores...');
+            // Opcional: mostrar alerta indicando que faltan jugadores
+            Alert.alert(
+                'Jugadores incompletos',
+                'Necesitas agregar todos los jugadores antes de iniciar el juego'
+            );
         }
     };
 
@@ -126,6 +149,7 @@ const Lobby = ({ navigation, route }) => {
                         </View>
                     </View>
                     <Text style={styles.playerName}>{player.name}</Text>
+                    {player.isHost && <Text style={styles.hostText}>Host</Text>}
                 </TouchableOpacity>
             );
         }
@@ -159,6 +183,7 @@ const Lobby = ({ navigation, route }) => {
                 {/* Modal principal */}
                 <View style={styles.modalContainer}>
                     <Text style={styles.title}>Sala de espera</Text>
+                    <Text style={styles.subtitle}>Esperando jugadores...</Text>
 
                     <View style={styles.playersGrid}>
                         {players.map((player) => (
@@ -280,7 +305,14 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: '500',
         color: '#333',
-        marginBottom: 25,
+        marginBottom: 5,
+        textAlign: 'center',
+        fontStyle: 'italic',
+    },
+    subtitle: {
+        fontSize: 14,
+        color: '#666',
+        marginBottom: 20,
         textAlign: 'center',
         fontStyle: 'italic',
     },
@@ -317,18 +349,12 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.1,
         shadowRadius: 4,
         elevation: 3,
+        position: 'relative',
     },
     avatarIcon: {
         backgroundColor: '#E8F4FD',
         borderRadius: 20,
         padding: 8,
-    },
-    playerName: {
-        fontSize: 12,
-        fontWeight: '600',
-        color: '#333',
-        textAlign: 'center',
-        numberOfLines: 2,
     },
     hostBadge: {
         position: 'absolute',
@@ -337,6 +363,20 @@ const styles = StyleSheet.create({
         backgroundColor: '#333',
         borderRadius: 10,
         padding: 3,
+    },
+    playerName: {
+        fontSize: 12,
+        fontWeight: '600',
+        color: '#333',
+        textAlign: 'center',
+        numberOfLines: 2,
+    },
+    hostText: {
+        fontSize: 10,
+        color: '#FFD700',
+        textAlign: 'center',
+        fontWeight: 'bold',
+        marginTop: 2,
     },
     emptySlot: {
         alignItems: 'center',
@@ -371,15 +411,6 @@ const styles = StyleSheet.create({
         color: '#666',
         textAlign: 'center',
         fontStyle: 'italic',
-    },
-    infoContainer: {
-        marginBottom: 20,
-    },
-    infoText: {
-        fontSize: 14,
-        color: '#555',
-        fontStyle: 'italic',
-        fontWeight: '600',
     },
     continueButton: {
         backgroundColor: '#555',
