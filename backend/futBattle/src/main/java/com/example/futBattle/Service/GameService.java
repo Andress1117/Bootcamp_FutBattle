@@ -99,7 +99,7 @@ public class GameService {
         return Game.builder()
                 .id(gameDTO.getId())
                 .numPlayer(gameDTO.getNumPlayer())
-                .idPlayer(player) // asignamos el objeto player creado
+                .idPlayer(player) // Se asigna el objeto player creado
                 .build();
     }
 
