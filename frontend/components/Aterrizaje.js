@@ -10,11 +10,9 @@ import {
     TextInput,
 } from 'react-native';
 
-import { savePlayer } from '../components/src/api/PlayerApi';
+import { savePlayer } from './src/api/PlayerApi';
 
-import { INamePlayer } from "../components/src/api/types/IPlayer";
-
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 export default function LandingScreen({ navigation }) {
 

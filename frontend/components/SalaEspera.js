@@ -14,7 +14,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 const { width, height } = Dimensions.get('window');
 
-const Lobby = ({ navigation, route }) => {
+const SalaEspera = ({ navigation, route }) => {
 
     const selectedPlayers = route?.params?.players || 5;
     const username = route?.params?.username || 'Usuario';
@@ -104,7 +104,7 @@ const Lobby = ({ navigation, route }) => {
 
         if (allPlayersConnected) {
             const jugadoresConectados = players.filter(p => p.isConnected && p.name);
-            navigation.navigate('Game', {
+            navigation.navigate('Juego', {
                 players: jugadoresConectados,
             });
         } else {
@@ -481,4 +481,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Lobby;
+export default SalaEspera;

@@ -95,7 +95,6 @@ const getPlayerImagePath = (playerName) => {
         .replace(/ó/g, 'o')
         .replace(/ú/g, 'u');
     
-    // Retornar la ruta de la imagen
     return `../assets/cartas/${imageName}.png`;
 };
 
@@ -108,7 +107,7 @@ const getImageSource = (playerName) => {
     }
 };
 
-const Game = ({ navigation, route }) => {
+const Juego = ({ navigation, route }) => {
     const jugadoresLobby = route?.params?.players || [];
     
     const [jugadores, setJugadores] = useState([]);
@@ -726,4 +725,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Game;
+export default Juego;

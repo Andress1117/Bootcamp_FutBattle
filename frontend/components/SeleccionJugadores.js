@@ -42,7 +42,7 @@ const SeleccionarJugadores = ({ navigation }) => {
     console.log("Numero de player " + selectedPlayers)
 
     if (selectedPlayers) {
-      navigation.navigate('Lobby', {
+      navigation.navigate('SalaEspera', {
         players: selectedPlayers,
         username,
       });
