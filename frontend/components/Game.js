@@ -9,16 +9,16 @@ import {
     Modal,
     ScrollView,
     Alert,
+    Image,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 const { width, height } = Dimensions.get('window');
 
-
 const cartasBase = [
     { nombre: 'Messi', stats: { PAC: 85, SHO: 92, PAS: 91, DRI: 95, DEF: 38, PHY: 65 } },
     { nombre: 'Cristiano', stats: { PAC: 89, SHO: 93, PAS: 82, DRI: 88, DEF: 35, PHY: 77 } },
-    { nombre: 'Mbappé', stats: { PAC: 97, SHO: 89, PAS: 80, DRI: 92, DEF: 36, PHY: 76 } },
+    { nombre: 'Mbappe', stats: { PAC: 97, SHO: 89, PAS: 80, DRI: 92, DEF: 36, PHY: 76 } },
     { nombre: 'Modric', stats: { PAC: 76, SHO: 79, PAS: 89, DRI: 90, DEF: 72, PHY: 66 } },
     { nombre: 'Kanté', stats: { PAC: 80, SHO: 66, PAS: 77, DRI: 81, DEF: 87, PHY: 84 } },
     { nombre: 'Van Dijk', stats: { PAC: 78, SHO: 60, PAS: 71, DRI: 72, DEF: 91, PHY: 86 } },
@@ -40,7 +40,7 @@ const cartasBase = [
     { nombre: 'Son', stats: { PAC: 88, SHO: 87, PAS: 79, DRI: 86, DEF: 42, PHY: 68 } },
     { nombre: 'Griezmann', stats: { PAC: 82, SHO: 84, PAS: 82, DRI: 85, DEF: 52, PHY: 68 } },
     { nombre: 'Neuer', stats: { PAC: 55, SHO: 30, PAS: 85, DRI: 60, DEF: 92, PHY: 83 } },
-    { nombre: 'Müller', stats: { PAC: 70, SHO: 85, PAS: 89, DRI: 81, DEF: 55, PHY: 72 } },
+    { nombre: 'Muller', stats: { PAC: 70, SHO: 85, PAS: 89, DRI: 81, DEF: 55, PHY: 72 } },
     { nombre: 'Goretzka', stats: { PAC: 76, SHO: 80, PAS: 78, DRI: 78, DEF: 80, PHY: 87 } },
     { nombre: 'Gnabry', stats: { PAC: 91, SHO: 80, PAS: 77, DRI: 85, DEF: 38, PHY: 70 } },
     { nombre: 'Sané', stats: { PAC: 95, SHO: 81, PAS: 76, DRI: 87, DEF: 35, PHY: 70 } },
@@ -65,7 +65,7 @@ const cartasBase = [
     { nombre: 'Verratti', stats: { PAC: 68, SHO: 62, PAS: 86, DRI: 92, DEF: 84, PHY: 61 } },
     { nombre: 'Hakimi', stats: { PAC: 91, SHO: 63, PAS: 80, DRI: 82, DEF: 75, PHY: 78 } },
     { nombre: 'Mendes', stats: { PAC: 88, SHO: 65, PAS: 83, DRI: 85, DEF: 72, PHY: 82 } },
-    { nombre: 'Rafa Leão', stats: { PAC: 95, SHO: 78, PAS: 74, DRI: 89, DEF: 28, PHY: 82 } },
+    { nombre: 'Rafa Leao', stats: { PAC: 95, SHO: 78, PAS: 74, DRI: 89, DEF: 28, PHY: 82 } },
     { nombre: 'Theo', stats: { PAC: 93, SHO: 70, PAS: 75, DRI: 83, DEF: 68, PHY: 85 } },
     { nombre: 'Tonali', stats: { PAC: 72, SHO: 65, PAS: 84, DRI: 78, DEF: 82, PHY: 76 } },
     { nombre: 'Maignan', stats: { PAC: 60, SHO: 35, PAS: 80, DRI: 65, DEF: 89, PHY: 85 } },
@@ -239,6 +239,11 @@ const Game = ({ navigation, route }) => {
             disabled={!seleccionable}
         >
             <Text style={styles.nombreCarta}>{carta.nombre}</Text>
+            <Image 
+                source={{ uri: `../assets/cartas/${carta.nombre.toLowerCase().replace(/\s+/g, '')}.png` }}
+                style={styles.imagenCarta}
+                defaultSource={require('../assets/cartas/default.png')}
+            />
             <View style={styles.statsContainer}>
                 {Object.entries(carta.stats).map(([stat, value]) => (
                     <View key={stat} style={[
@@ -356,13 +361,20 @@ const Game = ({ navigation, route }) => {
                         <Text style={styles.turnoTexto}>
                             Turno de: {jugadores[turnoActual]?.name}
                         </Text>
-                        <ScrollView horizontal style={styles.cartasScroll}>
-                            {jugadores[turnoActual]?.cartas.map((carta, index) => (
-                                <View key={index} style={styles.cartaWrapper}>
-                                    {renderCarta(carta, true)}
-                                </View>
-                            ))}
-                        </ScrollView>
+                        <View style={styles.cartasScrollContainer}>
+                            <ScrollView 
+                                horizontal 
+                                style={styles.cartasScroll}
+                                contentContainerStyle={styles.cartasScrollContent}
+                                showsHorizontalScrollIndicator={false}
+                            >
+                                {jugadores[turnoActual]?.cartas.map((carta, index) => (
+                                    <View key={index} style={styles.cartaWrapper}>
+                                        {renderCarta(carta, true)}
+                                    </View>
+                                ))}
+                            </ScrollView>
+                        </View>
                     </View>
                 )}
 
@@ -517,8 +529,18 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginBottom: 10,
     },
+    cartasScrollContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     cartasScroll: {
         flex: 1,
+        maxHeight: 250,
+    },
+    cartasScrollContent: {
+        alignItems: 'center',
+        paddingHorizontal: 20,
     },
     cartaWrapper: {
         marginRight: 10,
@@ -544,7 +566,14 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#333',
         textAlign: 'center',
+        marginBottom: 5,
+    },
+    imagenCarta: {
+        width: 60,
+        height: 60,
+        alignSelf: 'center',
         marginBottom: 10,
+        borderRadius: 5,
     },
     statsContainer: {
         flex: 1,
@@ -687,6 +716,12 @@ const styles = StyleSheet.create({
         width: '100%',
         alignItems: 'center',
     },
+    textoBotonVolver: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
 });
 
 export default Game;
+
