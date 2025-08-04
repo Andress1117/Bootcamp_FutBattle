@@ -8,3 +8,6 @@ export const ENDPOINT_Get_ALL_GAME_RANKING = `${API_BASE_URL}/player`;
 
 //PETICIÓN POST PARA CREAR JUGADOR Y ACTUALIZAR LOS DATOS DEL MISMO
 export const ENDPOINT_PLAYER_SAVE = `${API_BASE_URL}/player/`;
+
+//Petición POST para crear un Game
+export const ENDPOINT_GAME_SAVE = `${API_BASE_URL}/game/`;

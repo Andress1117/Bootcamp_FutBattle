@@ -29,13 +29,15 @@ export default function LandingScreen({ navigation }) { // <-- Recibe navigation
 
         const player = {
             name: username.trim(),
-            imageProfileId: 2 // ID quemado por ahora
+            imageProfileId: 1 // ID quemado por ahora
         };
 
         const response = await savePlayer(player);
+
         console.log(response);
 
-        navigation.navigate('SeleccionarJugadores', { player });
+        navigation.navigate('SeleccionarJugadores', { username });
+
     };
 
     return (

@@ -6,8 +6,8 @@ export interface INamePlayer {
 
 //interfas para crear un juego
 export interface IPlayerGame {
+    numPlayer: number;
     idPlayer: number;
-    numPlayers: number;
 }
 
 //interfas para obtener ranking de un juego 

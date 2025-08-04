@@ -22,12 +22,12 @@ public class Game {
     @Column(name = "num_player", nullable = false)
     private Integer numPlayer;
 
-    @Column(name = "date", nullable = false, updatable = false)
-    private LocalDateTime date;
-
     @ManyToOne
     @JoinColumn(name = "id_payer", nullable = false, referencedColumnName = "id")
     private Player idPlayer;
+
+    @Column(name = "date", nullable = false, updatable = false)
+    private LocalDateTime date;
 
     @PrePersist
     public void prePersist() {

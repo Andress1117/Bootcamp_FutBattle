@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRoute } from '@react-navigation/native';
+import { saveGame } from '../components/src/api/GameApi';
+
 
 const { width, height } = Dimensions.get('window');
 
@@ -24,17 +26,30 @@ const SeleccionarJugadores = ({ navigation }) => {
     setSelectedPlayers(count);
   };
 
-  const handleContinue = () => {
+  const handleBack = () => {
+    navigation.goBack();
+  };
+
+  const formSaveGame = async () => {
+
+    const game = {
+      numPlayer: selectedPlayers,
+      idPlayer: 16 // ID quemado por ahora
+    };
+
+    console.log(game)
+    const response = await saveGame(game);
+
+    console.log(response);
+    console.log("Numero de player " + selectedPlayers)
+
     if (selectedPlayers) {
       navigation.navigate('Lobby', {
         players: selectedPlayers,
         username,
       });
     }
-  };
 
-  const handleBack = () => {
-    navigation.goBack();
   };
 
   const renderPlayerImages = (count) => (
@@ -100,7 +115,7 @@ const SeleccionarJugadores = ({ navigation }) => {
               styles.continueButton,
               selectedPlayers && styles.continueButtonActive,
             ]}
-            onPress={handleContinue}
+            onPress={formSaveGame}
             disabled={!selectedPlayers}
           >
             <Text
