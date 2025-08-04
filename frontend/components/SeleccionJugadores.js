@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   View,
   Text,
@@ -10,8 +10,6 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useRoute } from '@react-navigation/native';
 import { saveGame } from '../components/src/api/GameApi';
-
-
 const { width, height } = Dimensions.get('window');
 
 const SeleccionarJugadores = ({ navigation }) => {
@@ -34,7 +32,7 @@ const SeleccionarJugadores = ({ navigation }) => {
 
     const game = {
       numPlayer: selectedPlayers,
-      idPlayer: 16 // ID quemado por ahora
+      idPlayer: 10  // ID quemado por ahora
     };
 
     console.log(game)
