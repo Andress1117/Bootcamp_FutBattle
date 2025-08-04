@@ -46,14 +46,14 @@ public class PlayerService {
 
             return new responseDTO(
                     HttpStatus.BAD_REQUEST.toString(),
-                    "El nombre debe tener un máximo de 50 caracteres y solo puede contener letras y espacios.");
+                    "El nombre debe tener un máximo de 50 caracteres y solo puede contener letras y espacios.", null);
         }
 
         // Validación del ID de imagen
         if (playerDTO.getImageProfileId() == null) {
             return new responseDTO(
                     HttpStatus.BAD_REQUEST.toString(),
-                    "El ID de la imagen de perfil no puede ir vacío ni ser inválido." + playerDTO.getImageProfileId());
+                    "El ID de la imagen de perfil no puede ir vacío ni ser inválido.", playerDTO.getImageProfileId());
         }
 
         // Buscar la imagen de perfil
@@ -62,7 +62,7 @@ public class PlayerService {
         if (!imageProfileOpt.isPresent()) {
             return new responseDTO(
                     HttpStatus.NOT_FOUND.toString(),
-                    "No se encontró la imagen de perfil con ID " + playerDTO.getImageProfileId());
+                    "No se encontró la imagen de perfil con ID " + playerDTO.getImageProfileId(), null);
         }
 
         // Si es actualización
@@ -72,7 +72,7 @@ public class PlayerService {
             if (!playerOpt.isPresent()) {
                 return new responseDTO(
                         HttpStatus.NOT_FOUND.toString(),
-                        "El jugador con ID " + playerDTO.getId() + " no existe");
+                        "El jugador con ID " + playerDTO.getId() + " no existe", null);
             }
 
             Player player = playerOpt.get();
@@ -81,7 +81,7 @@ public class PlayerService {
 
             repository.save(player);
 
-            return new responseDTO(HttpStatus.OK.toString(), "Jugador actualizado exitosamente");
+            return new responseDTO(HttpStatus.OK.toString(), "Jugador actualizado exitosamente", null);
         }
 
         // Si es creación
@@ -91,7 +91,7 @@ public class PlayerService {
 
         repository.save(newPlayer);
 
-        return new responseDTO(HttpStatus.OK.toString(), "El jugador se guardó correctamente");
+        return new responseDTO(HttpStatus.OK.toString(), "El jugador se guardó correctamente", newPlayer.getId());
     }
 
     // Eliminar player
@@ -99,10 +99,10 @@ public class PlayerService {
         if (!findById(id).isPresent()) {
             return new responseDTO(
                     HttpStatus.OK.toString(),
-                    "El registro no existe.");
+                    "El registro no existe.", null);
         } else {
             repository.deleteById(id);
-            return new responseDTO(HttpStatus.OK.toString(), "Eliminado exitosamente");
+            return new responseDTO(HttpStatus.OK.toString(), "Eliminado exitosamente", null);
         }
     }
 

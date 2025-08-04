@@ -15,6 +15,7 @@ import { Ionicons } from '@expo/vector-icons';
 const { width, height } = Dimensions.get('window');
 
 const Lobby = ({ navigation, route }) => {
+    // Obtener el número de jugadores seleccionados y el username de la pantalla anterior
     const selectedPlayers = route?.params?.players || 5;
     const username = route?.params?.username || 'Usuario';
 
