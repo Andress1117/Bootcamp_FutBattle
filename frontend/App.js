@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LandingScreen from './components/LandingScreen';
 import SeleccionarJugadores from './components/SeleccionJugadores';
 import LobbyScreen from './components/LobbyScreen';
+import Game from './components/Game';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,6 +17,7 @@ export default function App() {
         <Stack.Screen name="Landing" component={LandingScreen} />
         <Stack.Screen name="SeleccionarJugadores" component={SeleccionarJugadores} />
         <Stack.Screen name="Lobby" component={LobbyScreen} />
+        <Stack.Screen name="Game" component={Game} />
       </Stack.Navigator>
     </NavigationContainer>
   );

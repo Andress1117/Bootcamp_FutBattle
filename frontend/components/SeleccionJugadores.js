@@ -16,7 +16,7 @@ const SeleccionarJugadores = ({ navigation }) => {
   const [selectedPlayers, setSelectedPlayers] = useState(null);
 
   const route = useRoute();
-  const { username } = route.params; // nombre del primer jugador
+  const { username } = route.params;
 
   const playerOptions = [2, 3, 4, 5, 6, 7];
 

@@ -15,9 +15,8 @@ import { Ionicons } from '@expo/vector-icons';
 const { width, height } = Dimensions.get('window');
 
 const Lobby = ({ navigation, route }) => {
-    // Obtener el número de jugadores seleccionados y el username de la pantalla anterior
     const selectedPlayers = route?.params?.players || 5;
-    const username = route?.params?.username || 'Usuario'; // Obtener el username del landing
+    const username = route?.params?.username || 'Usuario';
 
     const [players, setPlayers] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
@@ -25,16 +24,15 @@ const Lobby = ({ navigation, route }) => {
     const [selectedSlot, setSelectedSlot] = useState(null);
 
     useEffect(() => {
-        // Inicializar los slots de jugadores
         const initialPlayers = Array.from({ length: selectedPlayers }, (_, index) => {
             if (index === 0) {
-                // El primer slot está ocupado por el usuario actual con su nombre del landing
                 return {
                     id: index,
-                    name: username, // Usar el username del landing
+                    name: username,
                     avatar: '👤',
                     isConnected: true,
                     isHost: true,
+                    score: 0,
                 };
             }
             return {
@@ -43,10 +41,11 @@ const Lobby = ({ navigation, route }) => {
                 avatar: null,
                 isConnected: false,
                 isHost: false,
+                score: 0,
             };
         });
         setPlayers(initialPlayers);
-    }, [selectedPlayers, username]); // Agregar username como dependencia
+    }, [selectedPlayers, username]);
 
     const handleBack = () => {
         if (navigation) {
@@ -68,14 +67,12 @@ const Lobby = ({ navigation, route }) => {
             return;
         }
 
-        // Verificar si el nombre ya existe
         const nameExists = players.some(p => p.name && p.name.toLowerCase() === playerName.trim().toLowerCase());
         if (nameExists) {
             Alert.alert('Error', 'Este nombre ya está en uso');
             return;
         }
 
-        // Actualizar el jugador en el slot seleccionado
         setPlayers(prevPlayers =>
             prevPlayers.map(player =>
                 player.id === selectedSlot
@@ -84,14 +81,13 @@ const Lobby = ({ navigation, route }) => {
             )
         );
 
-        // Cerrar modal y limpiar estados
         setModalVisible(false);
         setPlayerName('');
         setSelectedSlot(null);
     };
 
     const handleRemovePlayer = (playerId) => {
-        if (playerId === 0) return; // No permitir eliminar al host
+        if (playerId === 0) return;
 
         setPlayers(prevPlayers =>
             prevPlayers.map(player =>
@@ -102,32 +98,16 @@ const Lobby = ({ navigation, route }) => {
         );
     };
 
-    // En tu archivo Lobby.js, actualiza la función handleContinue:
-
     const handleContinue = () => {
-        // Verificar si todos los slots están ocupados
         const allPlayersConnected = players.every(player => player.isConnected);
 
         if (allPlayersConnected) {
-            // Obtener todos los nombres de jugadores
-            const playerNames = players.map(player => player.name);
-
-            console.log('Iniciando juego...');
-            console.log('Jugadores:', playerNames);
-
-            // Navegar a la pantalla Game pasando los jugadores
-            if (navigation && navigation.navigate) {
-                navigation.navigate('Game', {
-                    players: playerNames,
-                    totalPlayers: selectedPlayers,
-                    hostName: username
-                });
-            } else {
-                console.error('Navigation object not available');
-            }
+            // Filtrar sólo jugadores conectados con nombre
+            const jugadoresConectados = players.filter(p => p.isConnected && p.name);
+            navigation.navigate('Game', {
+                players: jugadoresConectados,
+            });
         } else {
-            console.log('Esperando más jugadores...');
-            // Opcional: mostrar alerta indicando que faltan jugadores
             Alert.alert(
                 'Jugadores incompletos',
                 'Necesitas agregar todos los jugadores antes de iniciar el juego'
@@ -175,12 +155,10 @@ const Lobby = ({ navigation, route }) => {
             resizeMode="cover"
         >
             <View style={styles.overlay}>
-                {/* Botón de regreso */}
                 <TouchableOpacity style={styles.backButton} onPress={handleBack}>
                     <Ionicons name="arrow-back" size={24} color="#fff" />
                 </TouchableOpacity>
 
-                {/* Modal principal */}
                 <View style={styles.modalContainer}>
                     <Text style={styles.title}>Sala de espera</Text>
                     <Text style={styles.subtitle}>Esperando jugadores...</Text>
@@ -210,7 +188,6 @@ const Lobby = ({ navigation, route }) => {
                     </TouchableOpacity>
                 </View>
 
-                {/* Modal para agregar jugador */}
                 <Modal
                     animationType="fade"
                     transparent={true}
@@ -356,21 +333,6 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         padding: 8,
     },
-    hostBadge: {
-        position: 'absolute',
-        top: -5,
-        right: -5,
-        backgroundColor: '#333',
-        borderRadius: 10,
-        padding: 3,
-    },
-    playerName: {
-        fontSize: 12,
-        fontWeight: '600',
-        color: '#333',
-        textAlign: 'center',
-        numberOfLines: 2,
-    },
     hostText: {
         fontSize: 10,
         color: '#FFD700',
@@ -434,7 +396,6 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontWeight: '600',
     },
-    // Estilos del Modal
     modalOverlay: {
         flex: 1,
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -506,11 +467,17 @@ const styles = StyleSheet.create({
     acceptButtonText: {
         color: '#fff',
         fontSize: 16,
-        fontWeight: '500',
+        fontWeight: '600',
         textAlign: 'center',
     },
     acceptButtonTextDisabled: {
-        color: '#999',
+        color: '#888',
+    },
+    playerName: {
+        fontSize: 14,
+        color: '#333',
+        textAlign: 'center',
+        fontWeight: '500',
     },
 });
 
