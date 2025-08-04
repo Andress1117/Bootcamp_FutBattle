@@ -1,6 +1,7 @@
 //interfas para crear un jugador
 export interface INamePlayer {
     userName: string;
+    idImagueProfile: number;
 }
 
 //interfas para crear un juego
