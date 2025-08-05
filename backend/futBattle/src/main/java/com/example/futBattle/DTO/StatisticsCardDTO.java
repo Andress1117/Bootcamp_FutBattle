@@ -1,7 +1,5 @@
 package com.example.futBattle.DTO;
 
-import com.example.futBattle.models.Card;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +15,5 @@ public class StatisticsCardDTO {
     private String dri;
     private String def;
     private String phy;
-    private Card idCard;
-    
+
 }

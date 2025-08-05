@@ -1,21 +1,18 @@
 package com.example.futBattle.Service;
 
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
-
-import com.example.futBattle.DTO.PlayerDTO;
 import com.example.futBattle.DTO.RankingDTO;
 import com.example.futBattle.DTO.responseDTO;
 import com.example.futBattle.Repository.IGame;
 import com.example.futBattle.Repository.IPlayer;
 import com.example.futBattle.Repository.IRanking;
 import com.example.futBattle.models.Game;
-import com.example.futBattle.models.ImageProfile;
 import com.example.futBattle.models.Player;
 import com.example.futBattle.models.Ranking;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class RankingService {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
     View,
     Text,
@@ -11,67 +11,67 @@ import {
     Alert,
     Image,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import {Ionicons} from '@expo/vector-icons';
 
-const { width, height } = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
 const cartasBase = [
-    { nombre: 'Messi', stats: { PAC: 85, SHO: 92, PAS: 91, DRI: 95, DEF: 38, PHY: 65 } },
-    { nombre: 'Cristiano', stats: { PAC: 89, SHO: 93, PAS: 82, DRI: 88, DEF: 35, PHY: 77 } },
-    { nombre: 'Mbappe', stats: { PAC: 97, SHO: 89, PAS: 80, DRI: 92, DEF: 36, PHY: 76 } },
-    { nombre: 'Modric', stats: { PAC: 76, SHO: 79, PAS: 89, DRI: 90, DEF: 72, PHY: 66 } },
-    { nombre: 'Kanté', stats: { PAC: 80, SHO: 66, PAS: 77, DRI: 81, DEF: 87, PHY: 84 } },
-    { nombre: 'Van Dijk', stats: { PAC: 78, SHO: 60, PAS: 71, DRI: 72, DEF: 91, PHY: 86 } },
-    { nombre: 'De Bruyne', stats: { PAC: 76, SHO: 86, PAS: 92, DRI: 87, DEF: 64, PHY: 78 } },
-    { nombre: 'Haaland', stats: { PAC: 91, SHO: 91, PAS: 65, DRI: 80, DEF: 45, PHY: 88 } },
-    { nombre: 'Neymar', stats: { PAC: 91, SHO: 85, PAS: 84, DRI: 94, DEF: 32, PHY: 58 } },
-    { nombre: 'Salah', stats: { PAC: 93, SHO: 86, PAS: 81, DRI: 90, DEF: 45, PHY: 75 } },
-    { nombre: 'Ramos', stats: { PAC: 70, SHO: 70, PAS: 75, DRI: 65, DEF: 88, PHY: 85 } },
-    { nombre: 'Lewandowski', stats: { PAC: 78, SHO: 91, PAS: 78, DRI: 82, DEF: 40, PHY: 82 } },
-    { nombre: 'Alisson', stats: { PAC: 60, SHO: 40, PAS: 60, DRI: 50, DEF: 90, PHY: 80 } },
-    { nombre: 'Kimmich', stats: { PAC: 75, SHO: 75, PAS: 85, DRI: 80, DEF: 85, PHY: 79 } },
-    { nombre: 'Sancho', stats: { PAC: 89, SHO: 79, PAS: 84, DRI: 88, DEF: 40, PHY: 70 } },
-    { nombre: 'Sterling', stats: { PAC: 93, SHO: 80, PAS: 75, DRI: 90, DEF: 35, PHY: 72 } },
-    { nombre: 'Benzema', stats: { PAC: 79, SHO: 87, PAS: 82, DRI: 87, DEF: 40, PHY: 77 } },
-    { nombre: 'Courtois', stats: { PAC: 45, SHO: 35, PAS: 75, DRI: 50, DEF: 95, PHY: 88 } },
-    { nombre: 'Kroos', stats: { PAC: 54, SHO: 82, PAS: 95, DRI: 81, DEF: 71, PHY: 72 } },
-    { nombre: 'Casemiro', stats: { PAC: 63, SHO: 73, PAS: 75, DRI: 72, DEF: 87, PHY: 91 } },
-    { nombre: 'Hazard', stats: { PAC: 81, SHO: 84, PAS: 86, DRI: 91, DEF: 35, PHY: 66 } },
-    { nombre: 'Son', stats: { PAC: 88, SHO: 87, PAS: 79, DRI: 86, DEF: 42, PHY: 68 } },
-    { nombre: 'Griezmann', stats: { PAC: 82, SHO: 84, PAS: 82, DRI: 85, DEF: 52, PHY: 68 } },
-    { nombre: 'Neuer', stats: { PAC: 55, SHO: 30, PAS: 85, DRI: 60, DEF: 92, PHY: 83 } },
-    { nombre: 'Muller', stats: { PAC: 70, SHO: 85, PAS: 89, DRI: 81, DEF: 55, PHY: 72 } },
-    { nombre: 'Goretzka', stats: { PAC: 76, SHO: 80, PAS: 78, DRI: 78, DEF: 80, PHY: 87 } },
-    { nombre: 'Gnabry', stats: { PAC: 91, SHO: 80, PAS: 77, DRI: 85, DEF: 38, PHY: 70 } },
-    { nombre: 'Sané', stats: { PAC: 95, SHO: 81, PAS: 76, DRI: 87, DEF: 35, PHY: 70 } },
-    { nombre: 'Kane', stats: { PAC: 70, SHO: 91, PAS: 83, DRI: 82, DEF: 47, PHY: 82 } },
-    { nombre: 'Mount', stats: { PAC: 78, SHO: 76, PAS: 82, DRI: 84, DEF: 64, PHY: 65 } },
-    { nombre: 'Foden', stats: { PAC: 85, SHO: 78, PAS: 84, DRI: 90, DEF: 55, PHY: 61 } },
-    { nombre: 'Grealish', stats: { PAC: 80, SHO: 74, PAS: 79, DRI: 89, DEF: 46, PHY: 65 } },
-    { nombre: 'Alexander-Arnold', stats: { PAC: 78, SHO: 66, PAS: 89, DRI: 80, DEF: 76, PHY: 71 } },
-    { nombre: 'Robertson', stats: { PAC: 85, SHO: 59, PAS: 81, DRI: 79, DEF: 78, PHY: 77 } },
-    { nombre: 'Thiago', stats: { PAC: 69, SHO: 71, PAS: 91, DRI: 87, DEF: 75, PHY: 66 } },
-    { nombre: 'Firmino', stats: { PAC: 76, SHO: 78, PAS: 84, DRI: 86, DEF: 61, PHY: 76 } },
-    { nombre: 'Diaz', stats: { PAC: 89, SHO: 77, PAS: 78, DRI: 87, DEF: 35, PHY: 67 } },
-    { nombre: 'Pedri', stats: { PAC: 79, SHO: 65, PAS: 86, DRI: 91, DEF: 59, PHY: 60 } },
-    { nombre: 'Gavi', stats: { PAC: 84, SHO: 60, PAS: 81, DRI: 89, DEF: 64, PHY: 68 } },
-    { nombre: 'Ter Stegen', stats: { PAC: 50, SHO: 25, PAS: 85, DRI: 65, DEF: 90, PHY: 78 } },
-    { nombre: 'Araujo', stats: { PAC: 85, SHO: 55, PAS: 68, DRI: 70, DEF: 87, PHY: 88 } },
-    { nombre: 'Frenkie', stats: { PAC: 78, SHO: 68, PAS: 87, DRI: 90, DEF: 78, PHY: 78 } },
-    { nombre: 'Ansu Fati', stats: { PAC: 92, SHO: 79, PAS: 76, DRI: 88, DEF: 25, PHY: 55 } },
-    { nombre: 'Ferran', stats: { PAC: 85, SHO: 80, PAS: 75, DRI: 82, DEF: 32, PHY: 65 } },
-    { nombre: 'Donnarumma', stats: { PAC: 50, SHO: 30, PAS: 75, DRI: 55, DEF: 91, PHY: 85 } },
-    { nombre: 'Marquinhos', stats: { PAC: 84, SHO: 55, PAS: 75, DRI: 78, DEF: 89, PHY: 85 } },
-    { nombre: 'Verratti', stats: { PAC: 68, SHO: 62, PAS: 86, DRI: 92, DEF: 84, PHY: 61 } },
-    { nombre: 'Hakimi', stats: { PAC: 91, SHO: 63, PAS: 80, DRI: 82, DEF: 75, PHY: 78 } },
-    { nombre: 'Mendes', stats: { PAC: 88, SHO: 65, PAS: 83, DRI: 85, DEF: 72, PHY: 82 } },
-    { nombre: 'Rafa Leao', stats: { PAC: 95, SHO: 78, PAS: 74, DRI: 89, DEF: 28, PHY: 82 } },
-    { nombre: 'Theo', stats: { PAC: 93, SHO: 70, PAS: 75, DRI: 83, DEF: 68, PHY: 85 } },
-    { nombre: 'Tonali', stats: { PAC: 72, SHO: 65, PAS: 84, DRI: 78, DEF: 82, PHY: 76 } },
-    { nombre: 'Maignan', stats: { PAC: 60, SHO: 35, PAS: 80, DRI: 65, DEF: 89, PHY: 85 } },
-    { nombre: 'Tomori', stats: { PAC: 89, SHO: 40, PAS: 65, DRI: 70, DEF: 84, PHY: 80 } },
-    { nombre: 'Giroud', stats: { PAC: 58, SHO: 83, PAS: 71, DRI: 75, DEF: 39, PHY: 90 } },
-    { nombre: 'Brahim', stats: { PAC: 82, SHO: 75, PAS: 80, DRI: 89, DEF: 40, PHY: 60 } }
+    {nombre: 'Messi', stats: {PAC: 85, SHO: 92, PAS: 91, DRI: 95, DEF: 38, PHY: 65}},
+    {nombre: 'Cristiano', stats: {PAC: 89, SHO: 93, PAS: 82, DRI: 88, DEF: 35, PHY: 77}},
+    {nombre: 'Mbappe', stats: {PAC: 97, SHO: 89, PAS: 80, DRI: 92, DEF: 36, PHY: 76}},
+    {nombre: 'Modric', stats: {PAC: 76, SHO: 79, PAS: 89, DRI: 90, DEF: 72, PHY: 66}},
+    {nombre: 'Kanté', stats: {PAC: 80, SHO: 66, PAS: 77, DRI: 81, DEF: 87, PHY: 84}},
+    {nombre: 'Van Dijk', stats: {PAC: 78, SHO: 60, PAS: 71, DRI: 72, DEF: 91, PHY: 86}},
+    {nombre: 'De Bruyne', stats: {PAC: 76, SHO: 86, PAS: 92, DRI: 87, DEF: 64, PHY: 78}},
+    {nombre: 'Haaland', stats: {PAC: 91, SHO: 91, PAS: 65, DRI: 80, DEF: 45, PHY: 88}},
+    {nombre: 'Neymar', stats: {PAC: 91, SHO: 85, PAS: 84, DRI: 94, DEF: 32, PHY: 58}},
+    {nombre: 'Salah', stats: {PAC: 93, SHO: 86, PAS: 81, DRI: 90, DEF: 45, PHY: 75}},
+    {nombre: 'Ramos', stats: {PAC: 70, SHO: 70, PAS: 75, DRI: 65, DEF: 88, PHY: 85}},
+    {nombre: 'Lewandowski', stats: {PAC: 78, SHO: 91, PAS: 78, DRI: 82, DEF: 40, PHY: 82}},
+    {nombre: 'Alisson', stats: {PAC: 60, SHO: 40, PAS: 60, DRI: 50, DEF: 90, PHY: 80}},
+    {nombre: 'Kimmich', stats: {PAC: 75, SHO: 75, PAS: 85, DRI: 80, DEF: 85, PHY: 79}},
+    {nombre: 'Sancho', stats: {PAC: 89, SHO: 79, PAS: 84, DRI: 88, DEF: 40, PHY: 70}},
+    {nombre: 'Sterling', stats: {PAC: 93, SHO: 80, PAS: 75, DRI: 90, DEF: 35, PHY: 72}},
+    {nombre: 'Benzema', stats: {PAC: 79, SHO: 87, PAS: 82, DRI: 87, DEF: 40, PHY: 77}},
+    {nombre: 'Courtois', stats: {PAC: 45, SHO: 35, PAS: 75, DRI: 50, DEF: 95, PHY: 88}},
+    {nombre: 'Kroos', stats: {PAC: 54, SHO: 82, PAS: 95, DRI: 81, DEF: 71, PHY: 72}},
+    {nombre: 'Casemiro', stats: {PAC: 63, SHO: 73, PAS: 75, DRI: 72, DEF: 87, PHY: 91}},
+    {nombre: 'Hazard', stats: {PAC: 81, SHO: 84, PAS: 86, DRI: 91, DEF: 35, PHY: 66}},
+    {nombre: 'Son', stats: {PAC: 88, SHO: 87, PAS: 79, DRI: 86, DEF: 42, PHY: 68}},
+    {nombre: 'Griezmann', stats: {PAC: 82, SHO: 84, PAS: 82, DRI: 85, DEF: 52, PHY: 68}},
+    {nombre: 'Neuer', stats: {PAC: 55, SHO: 30, PAS: 85, DRI: 60, DEF: 92, PHY: 83}},
+    {nombre: 'Muller', stats: {PAC: 70, SHO: 85, PAS: 89, DRI: 81, DEF: 55, PHY: 72}},
+    {nombre: 'Goretzka', stats: {PAC: 76, SHO: 80, PAS: 78, DRI: 78, DEF: 80, PHY: 87}},
+    {nombre: 'Gnabry', stats: {PAC: 91, SHO: 80, PAS: 77, DRI: 85, DEF: 38, PHY: 70}},
+    {nombre: 'Sané', stats: {PAC: 95, SHO: 81, PAS: 76, DRI: 87, DEF: 35, PHY: 70}},
+    {nombre: 'Kane', stats: {PAC: 70, SHO: 91, PAS: 83, DRI: 82, DEF: 47, PHY: 82}},
+    {nombre: 'Mount', stats: {PAC: 78, SHO: 76, PAS: 82, DRI: 84, DEF: 64, PHY: 65}},
+    {nombre: 'Foden', stats: {PAC: 85, SHO: 78, PAS: 84, DRI: 90, DEF: 55, PHY: 61}},
+    {nombre: 'Grealish', stats: {PAC: 80, SHO: 74, PAS: 79, DRI: 89, DEF: 46, PHY: 65}},
+    {nombre: 'Alexander-Arnold', stats: {PAC: 78, SHO: 66, PAS: 89, DRI: 80, DEF: 76, PHY: 71}},
+    {nombre: 'Robertson', stats: {PAC: 85, SHO: 59, PAS: 81, DRI: 79, DEF: 78, PHY: 77}},
+    {nombre: 'Thiago', stats: {PAC: 69, SHO: 71, PAS: 91, DRI: 87, DEF: 75, PHY: 66}},
+    {nombre: 'Firmino', stats: {PAC: 76, SHO: 78, PAS: 84, DRI: 86, DEF: 61, PHY: 76}},
+    {nombre: 'Diaz', stats: {PAC: 89, SHO: 77, PAS: 78, DRI: 87, DEF: 35, PHY: 67}},
+    {nombre: 'Pedri', stats: {PAC: 79, SHO: 65, PAS: 86, DRI: 91, DEF: 59, PHY: 60}},
+    {nombre: 'Gavi', stats: {PAC: 84, SHO: 60, PAS: 81, DRI: 89, DEF: 64, PHY: 68}},
+    {nombre: 'Ter Stegen', stats: {PAC: 50, SHO: 25, PAS: 85, DRI: 65, DEF: 90, PHY: 78}},
+    {nombre: 'Araujo', stats: {PAC: 85, SHO: 55, PAS: 68, DRI: 70, DEF: 87, PHY: 88}},
+    {nombre: 'Frenkie', stats: {PAC: 78, SHO: 68, PAS: 87, DRI: 90, DEF: 78, PHY: 78}},
+    {nombre: 'Ansu Fati', stats: {PAC: 92, SHO: 79, PAS: 76, DRI: 88, DEF: 25, PHY: 55}},
+    {nombre: 'Ferran', stats: {PAC: 85, SHO: 80, PAS: 75, DRI: 82, DEF: 32, PHY: 65}},
+    {nombre: 'Donnarumma', stats: {PAC: 50, SHO: 30, PAS: 75, DRI: 55, DEF: 91, PHY: 85}},
+    {nombre: 'Marquinhos', stats: {PAC: 84, SHO: 55, PAS: 75, DRI: 78, DEF: 89, PHY: 85}},
+    {nombre: 'Verratti', stats: {PAC: 68, SHO: 62, PAS: 86, DRI: 92, DEF: 84, PHY: 61}},
+    {nombre: 'Hakimi', stats: {PAC: 91, SHO: 63, PAS: 80, DRI: 82, DEF: 75, PHY: 78}},
+    {nombre: 'Mendes', stats: {PAC: 88, SHO: 65, PAS: 83, DRI: 85, DEF: 72, PHY: 82}},
+    {nombre: 'Rafa Leao', stats: {PAC: 95, SHO: 78, PAS: 74, DRI: 89, DEF: 28, PHY: 82}},
+    {nombre: 'Theo', stats: {PAC: 93, SHO: 70, PAS: 75, DRI: 83, DEF: 68, PHY: 85}},
+    {nombre: 'Tonali', stats: {PAC: 72, SHO: 65, PAS: 84, DRI: 78, DEF: 82, PHY: 76}},
+    {nombre: 'Maignan', stats: {PAC: 60, SHO: 35, PAS: 80, DRI: 65, DEF: 89, PHY: 85}},
+    {nombre: 'Tomori', stats: {PAC: 89, SHO: 40, PAS: 65, DRI: 70, DEF: 84, PHY: 80}},
+    {nombre: 'Giroud', stats: {PAC: 58, SHO: 83, PAS: 71, DRI: 75, DEF: 39, PHY: 90}},
+    {nombre: 'Brahim', stats: {PAC: 82, SHO: 75, PAS: 80, DRI: 89, DEF: 40, PHY: 60}}
 ];
 
 const statsNames = ['PAC', 'SHO', 'PAS', 'DRI', 'DEF', 'PHY'];
@@ -88,28 +88,28 @@ const getPlayerImagePath = (playerName) => {
     const imageName = playerName
         .toLowerCase()
         .replace(/\s+/g, '')
-        .replace(/ñ/g, 'n') 
+        .replace(/ñ/g, 'n')
         .replace(/á/g, 'a')
         .replace(/é/g, 'e')
         .replace(/í/g, 'i')
         .replace(/ó/g, 'o')
         .replace(/ú/g, 'u');
-    
+
     return `../assets/cartas/${imageName}.png`;
 };
 
 const getImageSource = (playerName) => {
     try {
         const imagePath = getPlayerImagePath(playerName);
-        return { uri: imagePath };
+        return {uri: imagePath};
     } catch (error) {
         return require('../assets/cartas/default.png');
     }
 };
 
-const Juego = ({ navigation, route }) => {
+const Juego = ({navigation, route}) => {
     const jugadoresLobby = route?.params?.players || [];
-    
+
     const [jugadores, setJugadores] = useState([]);
     const [rondaActual, setRondaActual] = useState(1);
     const [turnoActual, setTurnoActual] = useState(0);
@@ -145,7 +145,7 @@ const Juego = ({ navigation, route }) => {
     useEffect(() => {
         const jugadoresIniciales = repartirCartas();
         setJugadores(jugadoresIniciales);
-        
+
         const estatRandom = statsNames[Math.floor(Math.random() * statsNames.length)];
         setEstadisticaRonda(estatRandom);
     }, []);
@@ -186,11 +186,11 @@ const Juego = ({ navigation, route }) => {
         let mejorCarta = cartasRonda[0];
         let mejorValor = cartasRonda[0].carta.stats[estadisticaRonda];
 
-        cartasRonda.forEach(({ jugador, carta }) => {
+        cartasRonda.forEach(({jugador, carta}) => {
             const valor = carta.stats[estadisticaRonda];
             if (valor > mejorValor) {
                 mejorValor = valor;
-                mejorCarta = { jugador, carta };
+                mejorCarta = {jugador, carta};
             }
         });
 
@@ -215,7 +215,7 @@ const Juego = ({ navigation, route }) => {
         setCartasJugadas([]);
         setGanadorRonda(null);
         setEsperandoProximaRonda(false);
-        
+
         const estatRandom = statsNames[Math.floor(Math.random() * statsNames.length)];
         setEstadisticaRonda(estatRandom);
     };
@@ -227,7 +227,7 @@ const Juego = ({ navigation, route }) => {
                 ...jugador,
                 posicion: index + 1
             }));
-        
+
         setEstadisticasFinales(estadisticas);
         setJuegoTerminado(true);
     };
@@ -243,7 +243,7 @@ const Juego = ({ navigation, route }) => {
             disabled={!seleccionable}
         >
             <Text style={styles.nombreCarta}>{carta.nombre}</Text>
-            <Image 
+            <Image
                 source={getImageSource(carta.nombre)}
                 style={styles.imagenCarta}
                 onError={() => {
@@ -291,7 +291,7 @@ const Juego = ({ navigation, route }) => {
                                     <Text style={styles.rondasGanadas}>
                                         {jugador.rondasGanadas} rondas
                                     </Text>
-                                    {index === 0 && <Ionicons name="trophy" size={24} color="#FFD700" />}
+                                    {index === 0 && <Ionicons name="trophy" size={24} color="#FFD700"/>}
                                 </View>
                             ))}
                         </ScrollView>
@@ -335,7 +335,7 @@ const Juego = ({ navigation, route }) => {
                     <View style={styles.cartasJugadasContainer}>
                         <Text style={styles.cartasJugadasTitulo}>Cartas jugadas:</Text>
                         <ScrollView horizontal>
-                            {cartasJugadas.map(({ jugador, carta }, index) => (
+                            {cartasJugadas.map(({jugador, carta}, index) => (
                                 <View key={index} style={styles.cartaJugada}>
                                     <Text style={styles.jugadorCarta}>{jugador.name}</Text>
                                     {renderCarta(carta, false)}
@@ -364,8 +364,8 @@ const Juego = ({ navigation, route }) => {
                             Turno de: {jugadores[turnoActual]?.name}
                         </Text>
                         <View style={styles.cartasScrollContainer}>
-                            <ScrollView 
-                                horizontal 
+                            <ScrollView
+                                horizontal
                                 style={styles.cartasScroll}
                                 contentContainerStyle={styles.cartasScrollContent}
                                 showsHorizontalScrollIndicator={false}
@@ -553,7 +553,7 @@ const styles = StyleSheet.create({
         width: 120,
         minHeight: 180,
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
+        shadowOffset: {width: 0, height: 2},
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
@@ -575,7 +575,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginBottom: 10,
         borderRadius: 5,
-        backgroundColor: '#f0f0f0', 
+        backgroundColor: '#f0f0f0',
     },
     statsContainer: {
         flex: 1,

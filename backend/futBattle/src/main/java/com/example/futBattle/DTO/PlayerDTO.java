@@ -11,6 +11,5 @@ public class PlayerDTO {
 
     private Integer id;
     private String name;
-    private Integer imageProfileId;
 
 }

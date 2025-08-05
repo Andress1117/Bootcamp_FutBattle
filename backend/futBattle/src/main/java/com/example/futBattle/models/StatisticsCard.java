@@ -1,20 +1,10 @@
 package com.example.futBattle.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Entity;
-
-import com.example.futBattle.models.Card;
-import jakarta.persistence.ManyToOne;
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -46,6 +36,7 @@ public class StatisticsCard {
 
     @OneToOne
     @JoinColumn(name = "id_card", referencedColumnName = "id")
-    private Card idCard;
+    @JsonBackReference
+    private Card card;
 
 }
