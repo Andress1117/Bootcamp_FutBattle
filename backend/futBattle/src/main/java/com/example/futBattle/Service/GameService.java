@@ -24,11 +24,11 @@ public class GameService {
     }
 
     // lista Game segun el id
-    public Optional<Game> findById(Long id) {
+    public Optional<Game> findById(Integer id) {
         return repository.findById(id);
     }
 
-    //Guarda datos de Game
+    // Guarda datos de Game
     public responseDTO saveGame(GameDTO gameDTO) {
 
         // Validación del numero de Player no sea nulo
@@ -36,7 +36,7 @@ public class GameService {
 
             return new responseDTO(
                     HttpStatus.BAD_REQUEST.toString(),
-                    "El numero de jugadores no puede ser nulo ");
+                    "El numero de jugadores no puede ser nulo ", null);
         }
 
         // Validación del numero de Player no sea menor que dos
@@ -44,7 +44,7 @@ public class GameService {
 
             return new responseDTO(
                     HttpStatus.BAD_REQUEST.toString(),
-                    "El numero de jugadores debe ser mayor o igual que dos");
+                    "El numero de jugadores debe ser mayor o igual que dos", null);
         }
 
         // Validación del numero de Player no sea mayor que siete
@@ -52,7 +52,7 @@ public class GameService {
 
             return new responseDTO(
                     HttpStatus.BAD_REQUEST.toString(),
-                    "El numero de jugadores debe ser mayor que siete");
+                    "El numero de jugadores debe ser mayor que siete", null);
         }
 
         // Validar que el id del Player no sea nulo
@@ -60,10 +60,11 @@ public class GameService {
 
             return new responseDTO(
                     HttpStatus.BAD_REQUEST.toString(),
-                    "El id del jugador no puede ser nulo");
+                    "El id del jugador no puede ser nulo", null);
         }
 
         Player player = new Player();
+
         player.setId(gameDTO.getIdPlayer());
 
         Game newGame = Game.builder()
@@ -73,19 +74,18 @@ public class GameService {
 
         repository.save(newGame);
 
-
-        return new responseDTO(HttpStatus.OK.toString(), "El juego se creo correctamente");
+        return new responseDTO(HttpStatus.OK.toString(), "El juego se creo correctamente", newGame.getId());
     }
 
-    //Eliminar Game
-    public responseDTO deleteGame(Long id) {
+    // Eliminar Game
+    public responseDTO deleteGame(Integer id) {
         if (!findById(id).isPresent()) {
             return new responseDTO(
                     HttpStatus.OK.toString(),
-                    "El registro no existe.");
+                    "El registro no existe.", null);
         } else {
             repository.deleteById(id);
-            return new responseDTO(HttpStatus.OK.toString(), "Eliminado exitosamente");
+            return new responseDTO(HttpStatus.OK.toString(), "Eliminado exitosamente", null);
         }
     }
 
@@ -99,10 +99,9 @@ public class GameService {
         return Game.builder()
                 .id(gameDTO.getId())
                 .numPlayer(gameDTO.getNumPlayer())
-                .idPlayer(player) // asignamos el objeto player creado
+                .idPlayer(player) // Se asigna el objeto player creado
                 .build();
     }
-
 
     public GameDTO convertToDTO(Game game) {
         return new GameDTO(

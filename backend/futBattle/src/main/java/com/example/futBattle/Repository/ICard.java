@@ -1,7 +1,8 @@
 package com.example.futBattle.Repository;
 
-import com.example.futBattle.models.Game;
+import com.example.futBattle.models.Card;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface IGame extends JpaRepository<Game, Integer> {
+public interface ICard extends JpaRepository<Card, Integer> {
+
 }

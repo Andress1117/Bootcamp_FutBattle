@@ -14,25 +14,26 @@ import { Ionicons } from '@expo/vector-icons';
 
 const { width, height } = Dimensions.get('window');
 
-const Lobby = ({ navigation, route }) => {
-    // Obtener el número de jugadores seleccionados de la pantalla anterior
+const SalaEspera = ({ navigation, route }) => {
+
     const selectedPlayers = route?.params?.players || 5;
+    const username = route?.params?.username || 'Usuario';
+
     const [players, setPlayers] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [playerName, setPlayerName] = useState('');
     const [selectedSlot, setSelectedSlot] = useState(null);
 
     useEffect(() => {
-        // Inicializar los slots de jugadores
         const initialPlayers = Array.from({ length: selectedPlayers }, (_, index) => {
             if (index === 0) {
-                // El primer slot está ocupado por el usuario actual
                 return {
                     id: index,
-                    name: 'Carlos Javier',
-                    avatar: '👤', // Puedes cambiar esto por una imagen
+                    name: username,
+                    avatar: '👤',
                     isConnected: true,
                     isHost: true,
+                    score: 0,
                 };
             }
             return {
@@ -41,10 +42,11 @@ const Lobby = ({ navigation, route }) => {
                 avatar: null,
                 isConnected: false,
                 isHost: false,
+                score: 0,
             };
         });
         setPlayers(initialPlayers);
-    }, [selectedPlayers]);
+    }, [selectedPlayers, username]);
 
     const handleBack = () => {
         if (navigation) {
@@ -66,14 +68,12 @@ const Lobby = ({ navigation, route }) => {
             return;
         }
 
-        // Verificar si el nombre ya existe
         const nameExists = players.some(p => p.name && p.name.toLowerCase() === playerName.trim().toLowerCase());
         if (nameExists) {
             Alert.alert('Error', 'Este nombre ya está en uso');
             return;
         }
 
-        // Actualizar el jugador en el slot seleccionado
         setPlayers(prevPlayers =>
             prevPlayers.map(player =>
                 player.id === selectedSlot
@@ -82,14 +82,13 @@ const Lobby = ({ navigation, route }) => {
             )
         );
 
-        // Cerrar modal y limpiar estados
         setModalVisible(false);
         setPlayerName('');
         setSelectedSlot(null);
     };
 
     const handleRemovePlayer = (playerId) => {
-        if (playerId === 0) return; // No permitir eliminar al host
+        if (playerId === 0) return;
 
         setPlayers(prevPlayers =>
             prevPlayers.map(player =>
@@ -101,14 +100,18 @@ const Lobby = ({ navigation, route }) => {
     };
 
     const handleContinue = () => {
-        // Verificar si todos los slots están ocupados
         const allPlayersConnected = players.every(player => player.isConnected);
 
         if (allPlayersConnected) {
-            console.log('Iniciando juego...');
-            // navigation.navigate('Game');
+            const jugadoresConectados = players.filter(p => p.isConnected && p.name);
+            navigation.navigate('Juego', {
+                players: jugadoresConectados,
+            });
         } else {
-            console.log('Esperando más jugadores...');
+            Alert.alert(
+                'Jugadores incompletos',
+                'Necesitas agregar todos los jugadores antes de iniciar el juego'
+            );
         }
     };
 
@@ -126,6 +129,7 @@ const Lobby = ({ navigation, route }) => {
                         </View>
                     </View>
                     <Text style={styles.playerName}>{player.name}</Text>
+                    {player.isHost && <Text style={styles.hostText}>Host</Text>}
                 </TouchableOpacity>
             );
         }
@@ -151,14 +155,13 @@ const Lobby = ({ navigation, route }) => {
             resizeMode="cover"
         >
             <View style={styles.overlay}>
-                {/* Botón de regreso */}
                 <TouchableOpacity style={styles.backButton} onPress={handleBack}>
                     <Ionicons name="arrow-back" size={24} color="#fff" />
                 </TouchableOpacity>
 
-                {/* Modal principal */}
                 <View style={styles.modalContainer}>
                     <Text style={styles.title}>Sala de espera</Text>
+                    <Text style={styles.subtitle}>Esperando jugadores...</Text>
 
                     <View style={styles.playersGrid}>
                         {players.map((player) => (
@@ -185,7 +188,6 @@ const Lobby = ({ navigation, route }) => {
                     </TouchableOpacity>
                 </View>
 
-                {/* Modal para agregar jugador */}
                 <Modal
                     animationType="fade"
                     transparent={true}
@@ -280,7 +282,14 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: '500',
         color: '#333',
-        marginBottom: 25,
+        marginBottom: 5,
+        textAlign: 'center',
+        fontStyle: 'italic',
+    },
+    subtitle: {
+        fontSize: 14,
+        color: '#666',
+        marginBottom: 20,
         textAlign: 'center',
         fontStyle: 'italic',
     },
@@ -317,26 +326,19 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.1,
         shadowRadius: 4,
         elevation: 3,
+        position: 'relative',
     },
     avatarIcon: {
         backgroundColor: '#E8F4FD',
         borderRadius: 20,
         padding: 8,
     },
-    playerName: {
-        fontSize: 12,
-        fontWeight: '600',
-        color: '#333',
+    hostText: {
+        fontSize: 10,
+        color: '#FFD700',
         textAlign: 'center',
-        numberOfLines: 2,
-    },
-    hostBadge: {
-        position: 'absolute',
-        top: -5,
-        right: -5,
-        backgroundColor: '#333',
-        borderRadius: 10,
-        padding: 3,
+        fontWeight: 'bold',
+        marginTop: 2,
     },
     emptySlot: {
         alignItems: 'center',
@@ -372,15 +374,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontStyle: 'italic',
     },
-    infoContainer: {
-        marginBottom: 20,
-    },
-    infoText: {
-        fontSize: 14,
-        color: '#555',
-        fontStyle: 'italic',
-        fontWeight: '600',
-    },
     continueButton: {
         backgroundColor: '#555',
         paddingVertical: 12,
@@ -403,7 +396,6 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontWeight: '600',
     },
-    // Estilos del Modal
     modalOverlay: {
         flex: 1,
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -475,12 +467,18 @@ const styles = StyleSheet.create({
     acceptButtonText: {
         color: '#fff',
         fontSize: 16,
-        fontWeight: '500',
+        fontWeight: '600',
         textAlign: 'center',
     },
     acceptButtonTextDisabled: {
-        color: '#999',
+        color: '#888',
+    },
+    playerName: {
+        fontSize: 14,
+        color: '#333',
+        textAlign: 'center',
+        fontWeight: '500',
     },
 });
 
-export default Lobby;
+export default SalaEspera;

@@ -10,10 +10,33 @@ import {
     TextInput,
 } from 'react-native';
 
-const { width, height } = Dimensions.get('window');
+import { savePlayer } from './src/api/PlayerApi';
 
-export default function LandingScreen({ navigation }) { // <-- Recibe navigation
+const { width } = Dimensions.get('window');
+
+export default function LandingScreen({ navigation }) {
+
     const [username, setUsername] = useState('');
+
+    const formSavePlayer = async () => {
+
+        if (username.trim() === '') {
+            alert('Por favor, ingresa un nombre.');
+            return;
+        }
+
+        const player = {
+            name: username.trim(),
+            imageProfileId: 1 // ID quemado por ahora
+        };
+
+        const response = await savePlayer(player);
+
+        console.log(response);
+
+        navigation.navigate('SeleccionarJugadores', { username });
+
+    };
 
     return (
         <ImageBackground
@@ -22,7 +45,6 @@ export default function LandingScreen({ navigation }) { // <-- Recibe navigation
             resizeMode="cover"
         >
             <View style={styles.overlay}>
-                {/* Logo centrado encima del card */}
                 <Image
                     source={require('../assets/logo.png')}
                     style={styles.logo}
@@ -30,7 +52,6 @@ export default function LandingScreen({ navigation }) { // <-- Recibe navigation
                 />
 
                 <View style={styles.card}>
-                    {/* Espacio para que el logo no tape contenido */}
                     <View style={{ height: 150 }} />
 
                     <View style={styles.userSection}>
@@ -49,16 +70,11 @@ export default function LandingScreen({ navigation }) { // <-- Recibe navigation
 
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => {
-                            if (username.trim() === '') {
-                                alert('Por favor, ingresa un nombre.');
-                                return;
-                            }
-                            navigation.navigate('SeleccionarJugadores', { username });
-                        }}
+                        onPress={formSavePlayer}
                     >
                         <Text style={styles.buttonText}>Jugar partida</Text>
                     </TouchableOpacity>
+
 
                 </View>
             </View>
@@ -83,8 +99,8 @@ const styles = StyleSheet.create({
         width: 350,
         height: 350,
         position: 'absolute',
-        top: '14%',
-        left: width / 2 - 175, // 350 / 2
+        top: '30%',
+        left: width / 2 - 175, 
         zIndex: 2,
     },
     card: {
@@ -120,8 +136,8 @@ const styles = StyleSheet.create({
         fontStyle: 'italic',
         color: '#333',
         padding: 0,
-        backgroundColor: 'transparent', // ← sin fondo
-        borderWidth: 0, // ← sin bordes
+        backgroundColor: 'transparent',
+        borderWidth: 0,
         outlineStyle: 'none',
     },
     underline: {

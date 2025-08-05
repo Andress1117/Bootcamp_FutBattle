@@ -40,7 +40,7 @@ public class PlayerController {
 
     //Eliminar Payer
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deletePlayer(@PathVariable Long id) {
+    public ResponseEntity<Object> deletePlayer(@PathVariable Integer id) {
         var data = service.deletePlayer(id);
         return new ResponseEntity<>(data, HttpStatus.OK);
     }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   View,
   Text,
@@ -6,59 +6,60 @@ import {
   StyleSheet,
   Dimensions,
   ImageBackground,
-  Image,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRoute } from '@react-navigation/native';
-
+import { saveGame } from '../components/src/api/GameApi';
 const { width, height } = Dimensions.get('window');
 
 const SeleccionarJugadores = ({ navigation }) => {
   const [selectedPlayers, setSelectedPlayers] = useState(null);
 
-  const playerOptions = [
-    { id: 2, count: 2 },
-    { id: 3, count: 3 },
-    { id: 4, count: 4 },
-    { id: 5, count: 5 },
-    { id: 6, count: 6 },
-    { id: 7, count: 7 }
-  ];
+  const route = useRoute();
+  const { username } = route.params;
+
+  const playerOptions = [2, 3, 4, 5, 6, 7];
 
   const handlePlayerSelect = (count) => {
     setSelectedPlayers(count);
   };
 
-  const renderPlayerImages = (count) => {
-    return (
-      <View style={styles.playersContainer}>
-        {Array.from({ length: count }, (_, index) => (
-          <View key={index} style={styles.playerSilhouette}>
-            {/* Silueta de persona usando formas */}
-            <View style={styles.head} />
-            <View style={styles.body} />
-          </View>
-        ))}
-      </View>
-    );
-  };
-
-  const handleContinue = () => {
-    if (selectedPlayers) {
-      navigation.navigate('Lobby'); // 👈 LLEVA AL LOBBY
-    }
-  };
-
-
   const handleBack = () => {
-    if (navigation) {
-      navigation.goBack();
-    }
+    navigation.goBack();
   };
 
-  const route = useRoute();
-const { username } = route.params;
+  const formSaveGame = async () => {
 
+    const game = {
+      numPlayer: selectedPlayers,
+      idPlayer: 10  // ID quemado por ahora
+    };
+
+    console.log(game)
+    const response = await saveGame(game);
+
+    console.log(response);
+    console.log("Numero de player " + selectedPlayers)
+
+    if (selectedPlayers) {
+      navigation.navigate('SalaEspera', {
+        players: selectedPlayers,
+        username,
+      });
+    }
+
+  };
+
+  const renderPlayerImages = (count) => (
+    <View style={styles.playersContainer}>
+      {Array.from({ length: count }, (_, index) => (
+        <View key={index} style={styles.playerSilhouette}>
+          <View style={styles.head} />
+          <View style={styles.body} />
+        </View>
+      ))}
+    </View>
+  );
 
   return (
     <ImageBackground
@@ -67,46 +68,41 @@ const { username } = route.params;
       resizeMode="cover"
     >
       <View style={styles.overlay}>
-        {/* Botón de regreso */}
         <TouchableOpacity style={styles.backButton} onPress={handleBack}>
           <Ionicons name="arrow-back" size={24} color="#fff" />
         </TouchableOpacity>
 
-        {/* Modal principal */}
         <View style={styles.modalContainer}>
           <Text style={styles.title}>Selecciona el número de jugadores</Text>
 
           <View style={styles.gridContainer}>
-            {/* Primera fila: 2, 3, 4, 5 jugadores */}
             <View style={styles.row}>
-              {playerOptions.slice(0, 4).map((option) => (
+              {playerOptions.slice(0, 4).map((count) => (
                 <TouchableOpacity
-                  key={option.id}
+                  key={count}
                   style={[
                     styles.playerOption,
-                    selectedPlayers === option.count && styles.selectedOption
+                    selectedPlayers === count && styles.selectedOption,
                   ]}
-                  onPress={() => handlePlayerSelect(option.count)}
+                  onPress={() => handlePlayerSelect(count)}
                 >
-                  <Text style={styles.playerNumber}>{option.count}</Text>
-                  {renderPlayerImages(option.count)}
+                  <Text style={styles.playerNumber}>{count}</Text>
+                  {renderPlayerImages(count)}
                 </TouchableOpacity>
               ))}
             </View>
-
-            {/* Segunda fila: 6, 7 jugadores */}
             <View style={styles.rowSecond}>
-              {playerOptions.slice(4, 6).map((option) => (
+              {playerOptions.slice(4).map((count) => (
                 <TouchableOpacity
-                  key={option.id}
+                  key={count}
                   style={[
                     styles.playerOption,
-                    selectedPlayers === option.count && styles.selectedOption
+                    selectedPlayers === count && styles.selectedOption,
                   ]}
-                  onPress={() => handlePlayerSelect(option.count)}
+                  onPress={() => handlePlayerSelect(count)}
                 >
-                  <Text style={styles.playerNumber}>{option.count}</Text>
-                  {renderPlayerImages(option.count)}
+                  <Text style={styles.playerNumber}>{count}</Text>
+                  {renderPlayerImages(count)}
                 </TouchableOpacity>
               ))}
             </View>
@@ -115,15 +111,17 @@ const { username } = route.params;
           <TouchableOpacity
             style={[
               styles.continueButton,
-              selectedPlayers && styles.continueButtonActive
+              selectedPlayers && styles.continueButtonActive,
             ]}
-            onPress={handleContinue}
+            onPress={formSaveGame}
             disabled={!selectedPlayers}
           >
-            <Text style={[
-              styles.continueButtonText,
-              selectedPlayers && styles.continueButtonTextActive
-            ]}>
+            <Text
+              style={[
+                styles.continueButtonText,
+                selectedPlayers && styles.continueButtonTextActive,
+              ]}
+            >
               Continuar
             </Text>
           </TouchableOpacity>
@@ -190,7 +188,7 @@ const styles = StyleSheet.create({
   },
   rowSecond: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'center',
     paddingHorizontal: 60,
   },
   playerOption: {
@@ -202,7 +200,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   selectedOption: {
-    backgroundColor: 'rgba(74, 144, 226, 0.3)', // Color azul suave para la selección
+    backgroundColor: 'rgba(74, 144, 226, 0.3)',
     borderWidth: 2,
     borderColor: '#D9D9D9',
     transform: [{ scale: 1.05 }],

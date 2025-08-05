@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class GameDTO {
+public class CardDTO {
 
     private Integer id;
-    private Integer numPlayer;
-    private Integer idPlayer;
-
+    private String url;
+    private String name;
+    private StatisticsCardDTO statistics;
 }
