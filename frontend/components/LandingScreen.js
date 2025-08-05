@@ -31,7 +31,6 @@ export default function LandingScreen({ navigation }) {
             resizeMode="cover"
         >
             <View style={styles.wrapper}>
-                {/* Centered logo above the card */}
                 <View style={styles.logoWrapper}>
                     <Image
                         source={require('../assets/logo.png')}
@@ -40,7 +39,6 @@ export default function LandingScreen({ navigation }) {
                     />
                 </View>
 
-                {/* Card below the logo */}
                 <View style={styles.card}>
                     <View style={{ height: 150 }} />
 
@@ -81,8 +79,8 @@ const styles = StyleSheet.create({
     },
     logoWrapper: {
         alignItems: 'center',
-        marginBottom: -120, // Negative to overlap with card
-        zIndex: 2, // On top of the card
+        marginBottom: -200,
+        zIndex: 2,
     },
     logo: {
         width: width * 0.5,
