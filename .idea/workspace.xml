@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="374667d7-09b9-4570-8ab0-ed4adeb45a06" name="Changes" comment="Elimina el imageProfile, ya agrega cartas  retorna la cartas con sus estadisticas y en IPlayer solucione el error de que no retornaba los jugadores que estaban en la sala">
+      <change beforePath="$PROJECT_DIR$/Diagramas/Casosdeuso" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Diagramas/Mer_futBattle" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="Carlos" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;carlosJavierRodirguez&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Andress1117/Bootcamp_FutBattle.git&quot;,
+    &quot;accountId&quot;: &quot;908dd2b5-dfff-4f82-a7cd-b2c773123d3f&quot;
+  }
+}</component>
+  <component name="HttpClientEndpointsTabState">
+    <option name="cachedRequestData" value="&lt;CachedHttpClientTabRequests&gt;&#10;  &lt;entry key=&quot;74728f8e72c7bf4eddd5236cc733a00f21a1ac17&quot; value=&quot;###&amp;#10;GET http://localhost:8080/api/v1/player/{{id}}&quot; /&gt;&#10;&lt;/CachedHttpClientTabRequests&gt;" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="30joye1UyEKyqa6v6xKlX3A33aF" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "Spring Boot.FutBattleApplication.executor": "Run",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Apache24/htdocs/Bootcamp_FutBattle",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.general",
+    "ts.external.directory.path": "C:\\Apache24\\htdocs\\Bootcamp_FutBattle\\frontend\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="FutBattleApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="futBattle" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.futBattle.FutBattleApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.23892.409" />
+        <option value="bundled-js-predefined-d6986cc7102b-e03c56caf84a-JavaScript-IU-252.23892.409" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="StructureViewState">
+    <option name="selectedTab" value="Logical" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="374667d7-09b9-4570-8ab0-ed4adeb45a06" name="Changes" comment="" />
+      <created>1754150598746</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1754150598746</updated>
+      <workItem from="1754150599881" duration="2246000" />
+      <workItem from="1754166688964" duration="17593000" />
+      <workItem from="1754250396497" duration="6491000" />
+      <workItem from="1754262155049" duration="5809000" />
+      <workItem from="1754277392818" duration="2245000" />
+      <workItem from="1754354903050" duration="10906000" />
+      <workItem from="1754368695064" duration="702000" />
+      <workItem from="1754369638351" duration="862000" />
+    </task>
+    <task id="LOCAL-00001" summary="Funcionalidad crud con el model de Player">
+      <option name="closed" value="true" />
+      <created>1754191142974</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1754191142974</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Funcionalidad crud con el model de Player">
+      <option name="closed" value="true" />
+      <created>1754191183767</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1754191183767</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Funcionalidad crud en el model de game">
+      <option name="closed" value="true" />
+      <created>1754195929658</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1754195929658</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Funcionalidad crud en el model de game">
+      <option name="closed" value="true" />
+      <created>1754196087150</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1754196087150</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Modifique el return de los controller ya que no es necesario especificar que es un objeto">
+      <option name="closed" value="true" />
+      <created>1754261685430</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1754261685430</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Modifique el return de los controller ya que no es necesario especificar que es un objeto">
+      <option name="closed" value="true" />
+      <created>1754261722813</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1754261722813</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Elimina el imageProfile, ya agrega cartas  retorna la cartas con sus estadisticas y en IPlayer solucione el error de que no retornaba los jugadores que estaban en la sala">
+      <option name="closed" value="true" />
+      <created>1754367735103</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1754367735103</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Funcionalidad crud con el model de Player" />
+    <MESSAGE value="Funcionalidad crud en el model de game" />
+    <MESSAGE value="Modifique el return de los controller ya que no es necesario especificar que es un objeto" />
+    <MESSAGE value="Elimina el imageProfile, ya agrega cartas  retorna la cartas con sus estadisticas y en IPlayer solucione el error de que no retornaba los jugadores que estaban en la sala" />
+    <option name="LAST_COMMIT_MESSAGE" value="Elimina el imageProfile, ya agrega cartas  retorna la cartas con sus estadisticas y en IPlayer solucione el error de que no retornaba los jugadores que estaban en la sala" />
+  </component>
+</project>

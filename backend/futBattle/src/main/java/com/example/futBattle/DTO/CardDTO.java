@@ -7,9 +7,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class ImageProfileDTO {
+public class CardDTO {
 
     private Integer id;
     private String url;
-
+    private String name;
+    private StatisticsCardDTO statistics;
 }
