@@ -8,34 +8,20 @@ import {
     ImageBackground,
     Dimensions,
     TextInput,
+    Platform,
 } from 'react-native';
 
-import { savePlayer } from './src/api/PlayerApi';
-
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 export default function LandingScreen({ navigation }) {
-
     const [username, setUsername] = useState('');
 
-    const formSavePlayer = async () => {
-
+    const handlePlayPress = () => {
         if (username.trim() === '') {
             alert('Por favor, ingresa un nombre.');
             return;
         }
-
-        const player = {
-            name: username.trim(),
-            imageProfileId: 1 // ID quemado por ahora
-        };
-
-        const response = await savePlayer(player);
-
-        console.log(response);
-
-        navigation.navigate('SeleccionarJugadores', { username });
-
+        navigation.navigate('SeleccionJugadores', { username });
     };
 
     return (
@@ -44,19 +30,23 @@ export default function LandingScreen({ navigation }) {
             style={styles.background}
             resizeMode="cover"
         >
-            <View style={styles.overlay}>
-                <Image
-                    source={require('../assets/logo.png')}
-                    style={styles.logo}
-                    resizeMode="contain"
-                />
+            <View style={styles.wrapper}>
+                {/* Centered logo above the card */}
+                <View style={styles.logoWrapper}>
+                    <Image
+                        source={require('../assets/logo.png')}
+                        style={styles.logo}
+                        resizeMode="contain"
+                    />
+                </View>
 
+                {/* Card below the logo */}
                 <View style={styles.card}>
                     <View style={{ height: 150 }} />
 
-                    <View style={styles.userSection}>
+                    <View style={styles.userInfo}>
                         <Image source={require('../assets/perfil.png')} style={styles.avatar} />
-                        <View style={styles.nameContainer}>
+                        <View style={styles.inputWrapper}>
                             <TextInput
                                 style={styles.input}
                                 placeholder="Nombre de usuario"
@@ -68,20 +58,14 @@ export default function LandingScreen({ navigation }) {
                         </View>
                     </View>
 
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={formSavePlayer}
-                    >
+                    <TouchableOpacity style={styles.button} onPress={handlePlayPress}>
                         <Text style={styles.buttonText}>Jugar partida</Text>
                     </TouchableOpacity>
-
-
                 </View>
             </View>
         </ImageBackground>
     );
 }
-
 
 const styles = StyleSheet.create({
     background: {
@@ -89,19 +73,20 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
     },
-    overlay: {
+    wrapper: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        position: 'relative',
+        paddingVertical: 50,
+    },
+    logoWrapper: {
+        alignItems: 'center',
+        marginBottom: -120, // Negative to overlap with card
+        zIndex: 2, // On top of the card
     },
     logo: {
-        width: 350,
-        height: 350,
-        position: 'absolute',
-        top: '30%',
-        left: width / 2 - 175, 
-        zIndex: 2,
+        width: width * 0.5,
+        height: height * 0.25,
     },
     card: {
         width: width * 0.35,
@@ -116,9 +101,9 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.2,
         shadowRadius: 10,
         elevation: 10,
-        marginTop: 120,
+        zIndex: 1,
     },
-    userSection: {
+    userInfo: {
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 40,
@@ -128,7 +113,7 @@ const styles = StyleSheet.create({
         height: 50,
         marginRight: 12,
     },
-    nameContainer: {
+    inputWrapper: {
         alignItems: 'flex-start',
     },
     input: {
@@ -138,7 +123,7 @@ const styles = StyleSheet.create({
         padding: 0,
         backgroundColor: 'transparent',
         borderWidth: 0,
-        outlineStyle: 'none',
+        ...(Platform.OS === 'web' && { outlineStyle: 'none' }),
     },
     underline: {
         height: 1,
